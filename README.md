@@ -1,79 +1,183 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
 
-## About Laravel
+# Laravel PayPal Subscription
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    
+<a name="introduction"></a>
+## Introduction
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+PayPal Subscriptions, you can bill customers for physical and digital goods or services at regular intervals.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Currently only PayPal Express Checkout API Is Supported.**
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
+<a name="installation"></a>
+## Installation
 
-## Contributing
+* Download Composer if not already installed.
+* Go to your project directory. If you do not have one, just create a directory and cd in:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+$ mkdir project
+$ cd project
+```
 
-## Code of Conduct
+* Use following command to install.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+```bash
+$ composer require paypal/rest-api-sdk-php:*
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# output:
+./composer.json has been created
+Loading composer repositories with package information
+Updating dependencies (including require-dev)
+- Installing paypal/rest-api-sdk-php (v0.16.1)
+Loading from cache
 
-## License
+Writing lock file
+Generating autoload files
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+PHP version >= 7.2 is required.
+
+
+
+<a name="configuration"></a>
+## Configuration
+
+* After installation, you will need to add your paypal settings. Following is the code you will find in **config/paypal.php**, which you should update accordingly.
+
+```php
+return [
+    'mode'    => 'sandbox', // Can only be 'sandbox' Or 'live'. If empty or invalid, 'live' will be used.
+    'sandbox' => [
+        'username'    => env('PAYPAL_SANDBOX_API_USERNAME', ''),
+        'password'    => env('PAYPAL_SANDBOX_API_PASSWORD', ''),
+        'secret'      => env('PAYPAL_SANDBOX_API_SECRET', ''),
+        'certificate' => env('PAYPAL_SANDBOX_API_CERTIFICATE', ''),
+        'app_id'      => 'APP-80W284485P519543T', // Used for testing Adaptive Payments API in sandbox mode
+    ],
+    'live' => [
+        'username'    => env('PAYPAL_LIVE_API_USERNAME', ''),
+        'password'    => env('PAYPAL_LIVE_API_PASSWORD', ''),
+        'secret'      => env('PAYPAL_LIVE_API_SECRET', ''),
+        'certificate' => env('PAYPAL_LIVE_API_CERTIFICATE', ''),
+        'app_id'      => '', // Used for Adaptive Payments API
+    ],
+
+    'payment_action' => 'Sale', // Can only be 'Sale', 'Authorization' or 'Order'
+    'currency'       => 'USD',
+    'notify_url'     => '', // Change this accordingly for your application.
+    'locale'         => '', // force gateway language  i.e. it_IT, es_ES, en_US ... (for express checkout only)
+    'validate_ssl'   => true, // Validate SSL when creating api client.
+];
+```
+
+* Add this to `.env.example` and `.env`
+
+```
+#PayPal Setting & API Credentials - sandbox
+PAYPAL_SANDBOX_API_USERNAME=
+PAYPAL_SANDBOX_API_PASSWORD=
+PAYPAL_SANDBOX_API_SECRET=
+PAYPAL_SANDBOX_API_CERTIFICATE=
+
+#PayPal Setting & API Credentials - live
+PAYPAL_LIVE_API_USERNAME=
+PAYPAL_LIVE_API_PASSWORD=
+PAYPAL_LIVE_API_SECRET=
+PAYPAL_LIVE_API_CERTIFICATE=
+```
+
+<a name="usage"></a>
+## Usage
+
+
+With the help of this repository. User are able to do following functionality:
+
+       Create Product
+	   Create Plan
+	   Create Subscription
+	   Create Billing Plan
+	   Create Recurring Transaction 
+
+User can also update subscription deatils like switching paln , change shipping amount etc. for more detail go throw below link :-
+https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_revise
+     
+
+
+
+
+
+
+
+### Create Product
+
+```php
+  $product = new Product();
+        $product->setName('diamond')
+                ->setDescription('diamond plan description.')
+                ->setType('SERVICE')
+                ->setCategory('SOFTWARE');
+                
+       $productInfo= $product->create($this->apiContext);
+```
+
+
+### Create Plan
+
+```php
+        $plan = new Plan();
+        $plan->setName('T-Shirt of the Month Club Plan')
+                ->setDescription('Template creation.')
+                ->setType('fixed');
+
+// Set billing plan definitions
+        $paymentDefinition = new PaymentDefinition();
+        $paymentDefinition->setName('Regular Payments')
+                ->setType('REGULAR')
+                ->setFrequency('Month')
+                ->setFrequencyInterval('1')
+                ->setCycles('12')
+                ->setAmount(new Currency(array('value' => 100, 'currency' => 'USD')));
+
+// Set charge models
+        $chargeModel = new ChargeModel();
+        $chargeModel->setType('SHIPPING')
+                ->setAmount(new Currency(array('value' => 10, 'currency' => 'USD')));
+        $paymentDefinition->setChargeModels(array($chargeModel));
+
+// Set merchant preferences
+        $merchantPreferences = new MerchantPreferences();
+        $merchantPreferences->setReturnUrl('http://localhost:8000/processagreement')
+                ->setCancelUrl('http://localhost:8000/cancel')
+                ->setAutoBillAmount('yes')
+                ->setInitialFailAmountAction('CONTINUE')
+                ->setMaxFailAttempts('0')
+                ->setSetupFee(new Currency(array('value' => 1, 'currency' => 'USD')));
+
+        $plan->setPaymentDefinitions(array($paymentDefinition));
+        $plan->setMerchantPreferences($merchantPreferences);
+```
+
+
+
+
+
+
+####Paypal SDK Sample code link
+
+http://paypal.github.io/PayPal-PHP-SDK/sample/
+
+
+####Paypal SDK Rest API Refrence  link
+
+https://developer.paypal.com/docs/api/overview/#make-rest-api-calls
+
+
+ 
