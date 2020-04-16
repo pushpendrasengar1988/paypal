@@ -184,12 +184,12 @@ https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_revise
 
 
 
-####Paypal SDK Sample code link
+#### Paypal SDK Sample code link
 
 http://paypal.github.io/PayPal-PHP-SDK/sample/
 
 
-###Paypal SDK Rest API Refrence  link
+### Paypal SDK Rest API Refrence  link
 
 https://developer.paypal.com/docs/api/overview/#make-rest-api-calls
 
