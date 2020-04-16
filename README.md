@@ -11,7 +11,6 @@
 
 PayPal Subscriptions, you can bill customers for physical and digital goods or services at regular intervals.
 
-**Currently only PayPal Express Checkout API Is Supported.**
 
 
 
@@ -167,14 +166,30 @@ https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_revise
 
 
 
+## First Call 
+  
+  1. We need to create developer account .Please click on below link for doing same .
+      https://developer.paypal.com/classic-home/
+ 
+  2.  After login first create application 
+ 
+  3.  After that  get  Application creatiantial . and configure same in .env file 
+  
+  ![](https://github.com/pushpendrasengar1988/paypal/blob/master/images/appcretiantial.png)
+  
+  
+  
 
 
-#### Paypal SDK Sample code link
+
+
+
+####Paypal SDK Sample code link
 
 http://paypal.github.io/PayPal-PHP-SDK/sample/
 
 
-#### Paypal SDK Rest API Refrence  link
+###Paypal SDK Rest API Refrence  link
 
 https://developer.paypal.com/docs/api/overview/#make-rest-api-calls
 
